@@ -76,7 +76,9 @@ namespace CityInfo.API.Controllers
                 return NotFound();
             }
             var finalPointOfInterest = _mapper.Map<Entities.PointOfInterest>(pointOfInterest);
-             
+            await _cityInfoRepository.AddPointOfInterestForCityAsync(cityId,finalPointOfInterest);
+            await _cityInfoRepository.SaveChangesAsync();
+            var createdPointOfInterestToReturn = _mapper.Map<Models.PointOfInterestDto>(pointOfInterest);
             
             return CreatedAtRoute("GetPointOfInterest",
                 new
@@ -84,10 +86,10 @@ namespace CityInfo.API.Controllers
                     CityId = cityId,
                     pointOfInterestId = finalPointOfInterest.Id
                 },
-                finalPointOfInterest
+                createdPointOfInterestToReturn
                 );
 
-        }
+        } /*
         [HttpPut("{pointofinterestid}")]
         public ActionResult UpdatePointOfInterest(int cityId, int pointOfInterestId,PointOfInterestForUpdateDto pointOfInterest)
         {
@@ -166,7 +168,7 @@ namespace CityInfo.API.Controllers
             _mailService.Send("Point of interest deleted.", $"Point of interst {pointOfInterestFromStore.Name} with id {pointOfInterestFromStore.Id} was deleted.");
             return NoContent();
 
-        }
+        }  */
     } 
     
 }
