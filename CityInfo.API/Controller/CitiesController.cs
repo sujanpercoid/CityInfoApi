@@ -20,7 +20,8 @@ namespace CityInfo.API.Controller
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CityWithoutPointsOfInterestDto>>> GetCities()
+        public async Task<ActionResult<IEnumerable<CityWithoutPointsOfInterestDto>>> GetCities(
+            [FromQuery(Name ="filteronname")]string? name)
         {
             var cityEntities = await _cityInfoRepository.GetCitiesAsync();
             
